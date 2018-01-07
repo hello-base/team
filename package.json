@@ -11,7 +11,14 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,scss}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
+    "precommit": "lint-staged",    
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

@@ -2,6 +2,9 @@
   "name": "team",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.x"
+  },  
   "dependencies": {
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",

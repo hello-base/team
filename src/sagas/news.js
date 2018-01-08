@@ -3,7 +3,6 @@ import axios from 'axios';
 import { call, fork, put, take } from 'redux-saga/effects';
 
 import * as actions from 'actions/news';
-import { apiUri } from 'constants';
 
 const { newsFetch } = actions;
 

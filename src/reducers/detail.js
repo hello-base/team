@@ -5,7 +5,8 @@ import * as news from 'actions/news';
 
 const initialState = fromJS({
   isFetching: false,
-  error: ''
+  error: '',
+  news: []
 });
 
 const detail = (state = initialState, action) => {

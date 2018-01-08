@@ -20,7 +20,8 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 0 20px 0 136px;
 
-  ${'' /* background: #090a0c; */} color: #fff;
+  background: #090a0c;
+  color: #fff;
   font-family: ${props => props.theme.gotham};
   font-size: 18px;
   text-transform: uppercase;

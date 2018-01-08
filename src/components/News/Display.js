@@ -9,32 +9,60 @@ const propTypes = {
 };
 
 const Wrapper = styled.div`
-  grid-column: 5 / span 11;
-  grid-row: 2 / span 10;
+  grid-column: 5 / span 12;
+  grid-row: 2;
 
   color: #fff;
 `;
+
+const StyledTabs = styled(Tabs)`
+  display: grid;
+  grid-template-rows: 90px 1fr;
+
+  .react-tabs__tab-list {
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    font-family: ${props => props.theme.ideal};
+    font-style: italic;
+    font-size: 18px;
+    list-style: none;
+  }
+`;
+
+const StyledTab = styled(Tab)`
+  flex: 1;
+  text-align: center;
+`;
+StyledTab.tabsRole = 'Tab';
+
+const StyledTabPanel = styled(TabPanel)`
+  grid-column: 1;
+  grid-row: 2;
+`;
+StyledTabPanel.tabsRole = 'TabPanel';
 
 function Display(props) {
   const { news } = props;
   return (
     <Wrapper>
-      <Tabs defaultFocus>
+      <StyledTabs defaultFocus>
         <TabList>
-          {news
-            .keySeq()
-            .toArray()
-            .map(category => <Tab>{category}</Tab>)}
+          {news.keySeq().map(category => <StyledTab>{category}</StyledTab>)}
         </TabList>
 
         {news
           .valueSeq()
           .map(items => (
-            <TabPanel>
+            <StyledTabPanel>
               {items.map(item => <strong>{item.get('headline')}</strong>)}
-            </TabPanel>
+            </StyledTabPanel>
           ))}
-      </Tabs>
+      </StyledTabs>
     </Wrapper>
   );
 }

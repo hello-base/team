@@ -22,7 +22,17 @@ const defaultProps = {
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(20, 80px);
-  grid-template-rows: repeat(15, 60px);
+  grid-template-rows: 60px 1fr;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    height: 1px;
+
+    background: #2c333a;
+  }
 `;
 
 function Layout(props) {

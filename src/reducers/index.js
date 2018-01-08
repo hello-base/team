@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
-const rootReducer = combineReducers({});
+import episodes from './episodes';
+
+const rootReducer = combineReducers({
+  episodes
+});
 
 export default rootReducer;

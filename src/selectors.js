@@ -1,3 +1,3 @@
-export const errorFetchingEpisode = state => state.episode.get('error') !== '';
-export const getEpisodeDate = state => state.episode.get('date');
-export const getEpisodeNumber = state => state.episode.get('number');
+export const errorFetchingEpisode = state => state.detail.get('error') !== '';
+export const getEpisodeDate = state => state.detail.get('date');
+export const getEpisodeNumber = state => state.detail.get('number');

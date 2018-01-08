@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import episodes from './episodes';
+import episode from './episodes';
 
 const rootReducer = combineReducers({
-  episodes
+  episode
 });
 
 export default rootReducer;

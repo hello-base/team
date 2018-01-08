@@ -7,7 +7,7 @@ const initialState = fromJS({
   error: ''
 });
 
-const episodes = (state = initialState, action) => {
+const episode = (state = initialState, action) => {
   switch (action.type) {
     case actions.EPISODE_FETCH.REQUEST:
       return state.merge({
@@ -21,11 +21,12 @@ const episodes = (state = initialState, action) => {
     case actions.EPISODE_FETCH.SUCCESS:
       return state.merge({
         isFetching: false,
-        payload: action.payload
+        number: action.payload.number,
+        date: action.payload.date
       });
     default:
       return state;
   }
 };
 
-export default episodes;
+export default episode;

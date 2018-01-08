@@ -5,8 +5,8 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import { ThemeProvider } from 'styled-components';
 
-import { App } from './containers/App';
-import { Detail } from './containers/Episode';
+import { App } from 'containers/App';
+import { Detail } from 'containers/Episode';
 import foundation from 'helpers/foundation';
 
 import store, { history } from './store';

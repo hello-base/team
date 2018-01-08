@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import { ThemeProvider } from 'styled-components';
 
 import { App } from './containers/App';
+import { Detail } from './containers/Episode';
 import foundation from 'helpers/foundation';
 
 import store, { history } from './store';
@@ -21,6 +22,7 @@ ReactDOM.render(
       <ThemeProvider theme={foundation}>
         <main>
           <Switch>
+            <Route path="/episode/:episodeId" component={Detail} />
             <Route component={App} />
           </Switch>
         </main>
@@ -29,4 +31,5 @@ ReactDOM.render(
   </Provider>,
   target
 );
+
 registerServiceWorker();

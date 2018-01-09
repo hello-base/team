@@ -4,6 +4,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { OrderedMap } from 'immutable';
 import styled from 'styled-components';
 
+import Item from './Item';
+
 const propTypes = {
   news: PropTypes.instanceOf(OrderedMap).isRequired
 };
@@ -18,6 +20,7 @@ const Wrapper = styled.div`
 const StyledTabs = styled(Tabs)`
   display: grid;
   grid-template-rows: 90px 1fr;
+  overflow: hidden;
 
   .react-tabs__tab-list {
     grid-row: 1;
@@ -36,7 +39,6 @@ const StyledTabs = styled(Tabs)`
 
 const StyledTab = styled(Tab)`
   flex: 1;
-  text-align: center;
 `;
 StyledTab.tabsRole = 'Tab';
 
@@ -46,20 +48,52 @@ const StyledTabPanel = styled(TabPanel)`
 `;
 StyledTabPanel.tabsRole = 'TabPanel';
 
+const Corner = styled.div`
+  display: block;
+
+  span {
+    padding: 3px 6px;
+
+    background: #2db0ea;
+    border-radius: 2px;
+    font-family: ${props => props.theme.gotham};
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+`;
+
+function CurrentCorner() {
+  return (
+    <Corner>
+      <span>Current Corner</span>
+    </Corner>
+  );
+}
+
 function Display(props) {
   const { news } = props;
   return (
     <Wrapper>
       <StyledTabs defaultFocus>
         <TabList>
-          {news.keySeq().map(category => <StyledTab>{category}</StyledTab>)}
+          {news
+            .keySeq()
+            .toArray()
+            .map(category => (
+              <StyledTab>
+                {category}
+                <CurrentCorner />
+              </StyledTab>
+            ))}
         </TabList>
 
         {news
           .valueSeq()
           .map(items => (
             <StyledTabPanel>
-              {items.map(item => <strong>{item.get('headline')}</strong>)}
+              {items.map(item => <Item key={item.get('pk')} item={item} />)}
             </StyledTabPanel>
           ))}
       </StyledTabs>

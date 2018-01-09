@@ -31,7 +31,7 @@ const Container = styled.div`
     width: 100%;
     height: 1px;
 
-    background: #2c333a;
+    background: #1a1f23;
   }
 `;
 

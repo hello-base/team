@@ -13,14 +13,11 @@ const propTypes = {
 const Wrapper = styled.div`
   grid-column: 5 / span 12;
   grid-row: 2;
-
-  color: #fff;
 `;
 
 const StyledTabs = styled(Tabs)`
   display: grid;
   grid-template-rows: 90px 1fr;
-  overflow: hidden;
 
   .react-tabs__tab-list {
     grid-row: 1;
@@ -37,25 +34,23 @@ const StyledTabs = styled(Tabs)`
   }
 `;
 
-const StyledTab = styled(Tab)`
-  flex: 1;
+const CategoryName = styled.span`
+  position: relative;
+  font-weight: 500;
+  transition: 250ms all ease;
 `;
-StyledTab.tabsRole = 'Tab';
-
-const StyledTabPanel = styled(TabPanel)`
-  grid-column: 1;
-  grid-row: 2;
-`;
-StyledTabPanel.tabsRole = 'TabPanel';
 
 const Corner = styled.div`
   display: block;
+  position: absolute;
+  transition: 250ms all ease;
 
   span {
     padding: 3px 6px;
 
-    background: #2db0ea;
+    background: linear-gradient(#2db0ea, #1495cc);
     border-radius: 2px;
+    color: #fff;
     font-family: ${props => props.theme.gotham};
     font-style: normal;
     font-size: 12px;
@@ -64,13 +59,51 @@ const Corner = styled.div`
   }
 `;
 
-function CurrentCorner() {
-  return (
-    <Corner>
-      <span>Current Corner</span>
-    </Corner>
-  );
-}
+const StyledTab = styled(Tab)`
+  flex: 1;
+  align-self: stretch;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+
+  box-shadow: inset 0 ${props => (props.selected ? -3 : 0)}px 0 #2c333a;
+  transition: 250ms all ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  ${CategoryName} {
+    top: ${props => (props.selected ? -12 : 0)}px;
+    color: ${props => (props.selected ? '#e8ebed' : '#4f5c69')};
+  }
+  ${Corner} {
+    top: ${props => (props.selected ? 44 : 104)}px;
+    opacity: ${props => (props.selected ? 1 : 0)};
+  }
+`;
+StyledTab.tabsRole = 'Tab';
+
+const StyledTabPanel = styled(TabPanel)`
+  grid-column: 1;
+  grid-row: 2;
+  padding-top: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: row;
+  grid-gap: 10px;
+`;
+StyledTabPanel.tabsRole = 'TabPanel';
+
+const CurrentCorner = () => (
+  <Corner>
+    <span>Current Corner</span>
+  </Corner>
+);
 
 function Display(props) {
   const { news } = props;
@@ -83,7 +116,7 @@ function Display(props) {
             .toArray()
             .map(category => (
               <StyledTab>
-                {category}
+                <CategoryName>{category}</CategoryName>
                 <CurrentCorner />
               </StyledTab>
             ))}

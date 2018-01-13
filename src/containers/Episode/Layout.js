@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OrderedMap } from 'immutable';
 import styled from 'styled-components';
+import Particles from 'react-particles-js';
 
 import { Header } from 'components/Episode';
 import { Display } from 'components/News';
+import configuration from 'helpers/particles';
 
 const propTypes = {
   date: PropTypes.string,
@@ -22,25 +24,33 @@ const defaultProps = {
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(20, 80px);
-  grid-template-rows: 60px 1fr;
+  grid-template-rows: 1fr;
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 150px;
-    width: 100%;
-    height: 1px;
+  box-shadow: inset 0 0 0 3px #09445d, inset 0 0 0 6px #062938;
+`;
 
-    background: #1a1f23;
-  }
+const StyledHeader = styled(Header)`
+  z-index: 100;
+`;
+
+const StyledDisplay = styled(Display)`
+  z-index: 100;
+`;
+
+const StyledParticles = styled(Particles)`
+  position: absolute;
+  width: 1600px;
+  height: 900px;
+  z-index: 1;
 `;
 
 function Layout(props) {
   const { episodeId } = props.match.params;
   return (
     <Container>
-      <Header episode={episodeId} date={props.date} />
-      <Display news={props.news} />
+      <StyledHeader episode={episodeId} date={props.date} />
+      <StyledDisplay news={props.news} />
+      <StyledParticles params={configuration} />
     </Container>
   );
 }

@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   width: 1600px;
   height: 900px;
 
-  background: #121417;
+  background: linear-gradient(#020e13, #041b25);
 `;
 
 class Detail extends Component {

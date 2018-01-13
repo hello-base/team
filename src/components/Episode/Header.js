@@ -4,70 +4,84 @@ import styled from 'styled-components';
 
 import moment from 'moment';
 
-import logo from './logo.svg';
+import logomark from './logomark.svg';
 
 const propTypes = {
   episode: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired
+  date: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired
 };
 
 const Wrapper = styled.div`
-  grid-column: 1 / span 20;
-  grid-row: 1;
+  grid-column: span 4;
+  grid-row: span 2;
 
   position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 20px 0 136px;
+  padding: 30px;
 
-  background: #090a0c;
   color: #fff;
   font-family: ${props => props.theme.gotham};
   font-size: 18px;
-  text-transform: uppercase;
 
   user-select: none;
 `;
 
 const Logomark = styled.div`
-  position: absolute;
-  left: 0;
-  align-self: flex-start;
-  z-index: 100;
-`;
-
-const Logotype = styled.span`
-  flex: 1;
-
-  color: #4f5c69;
-  font-size: 18px;
-  letter-spacing: 1em;
+  img {
+    width: 120px;
+  }
 `;
 
 const Metadata = styled.div`
+  margin: 30px 0;
   font-weight: 500;
 `;
 
-const Date = styled.span`
-  padding-right: 12px;
-  color: #4f5c69;
+const Date = styled.div`
+  color: #90d6f4;
+  font-weight: 100;
+  text-transform: uppercase;
 `;
 
-const Episode = styled.span`
-  color: #e8ebed;
+const Episode = styled.div`
+  font-family: ${props => props.theme.ideal};
+  font-size: 54px;
+  font-style: italic;
+  font-weight: 100;
+  letter-spacing: -0.02em;
+`;
+
+const SectionHeader = styled.div`
+  padding-top: 10px;
+  position: relative;
+
+  font-size: 14px;
+  text-transform: uppercase;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 3px;
+
+    background: #2db0ea;
+    border-radius: 3px;
+  }
 `;
 
 function Header(props) {
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <Logomark>
-        <img src={logo} alt="hello!teamcast" />
+        <img src={logomark} alt="hello!teamcast" />
       </Logomark>
-      <Logotype>hello!teamcast</Logotype>
       <Metadata>
         <Date>{moment(props.date).format('MMMM Do, YYYY')}</Date>
-        <Episode>Episode {props.episode}</Episode>
+        <Episode>episode {props.episode}</Episode>
       </Metadata>
+      <SectionHeader>Hello! Team</SectionHeader>
+      {/* <SectionHeader>Twitch Chat</SectionHeader> */}
     </Wrapper>
   );
 }

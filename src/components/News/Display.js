@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { OrderedMap } from 'immutable';
 import styled from 'styled-components';
+import { Calendar, Home } from 'react-feather';
 
 import Item from './Item';
 
 const propTypes = {
-  news: PropTypes.instanceOf(OrderedMap).isRequired
+  news: PropTypes.instanceOf(OrderedMap).isRequired,
+  className: PropTypes.string.isRequired
 };
 
 const Wrapper = styled.div`
-  grid-column: 5 / span 12;
-  grid-row: 2;
+  grid-column: 5 / span 15;
+  grid-row: 1;
+  z-index: 10;
 `;
 
 const StyledTabs = styled(Tabs)`
@@ -30,6 +33,7 @@ const StyledTabs = styled(Tabs)`
     font-family: ${props => props.theme.ideal};
     font-style: italic;
     font-size: 18px;
+    letter-spacing: -1px;
     list-style: none;
   }
 `;
@@ -55,6 +59,7 @@ const Corner = styled.div`
     font-style: normal;
     font-size: 12px;
     font-weight: 600;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
 `;
@@ -68,8 +73,9 @@ const StyledTab = styled(Tab)`
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  margin: 0 30px 0 0;
 
-  box-shadow: inset 0 ${props => (props.selected ? -3 : 0)}px 0 #2c333a;
+  box-shadow: inset 0 ${props => (props.selected ? 6 : 0)}px 0 #2db0ea;
   transition: 250ms all ease;
 
   &:focus {
@@ -78,7 +84,7 @@ const StyledTab = styled(Tab)`
 
   ${CategoryName} {
     top: ${props => (props.selected ? -12 : 0)}px;
-    color: ${props => (props.selected ? '#e8ebed' : '#4f5c69')};
+    color: ${props => (props.selected ? '#ECF8FD' : '#0c3242')};
   }
   ${Corner} {
     top: ${props => (props.selected ? 44 : 104)}px;
@@ -87,15 +93,21 @@ const StyledTab = styled(Tab)`
 `;
 StyledTab.tabsRole = 'Tab';
 
+const StyledIconTab = styled(StyledTab)`
+  flex: none;
+  color: ${props => (props.selected ? '#e8ebed' : '#4f5c69')};
+`;
+StyledIconTab.tabsRole = 'Tab';
+
 const StyledTabPanel = styled(TabPanel)`
   grid-column: 1;
   grid-row: 2;
   padding-top: 30px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-flow: row;
-  grid-gap: 10px;
+  grid-gap: 15px;
 `;
 StyledTabPanel.tabsRole = 'TabPanel';
 
@@ -108,9 +120,11 @@ const CurrentCorner = () => (
 function Display(props) {
   const { news } = props;
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <StyledTabs defaultFocus>
         <TabList>
+          {/* <StyledIconTab><Home /></StyledIconTab>
+          <StyledIconTab><Calendar /></StyledIconTab> */}
           {news
             .keySeq()
             .toArray()
@@ -122,11 +136,15 @@ function Display(props) {
             ))}
         </TabList>
 
+        {/* <StyledTabPanel />
+        <StyledTabPanel /> */}
         {news
-          .valueSeq()
-          .map(items => (
+          .entrySeq()
+          .map(([category, items]) => (
             <StyledTabPanel>
-              {items.map(item => <Item key={item.get('pk')} item={item} />)}
+              {items.map(item => (
+                <Item key={item.get('pk')} category={category} item={item} />
+              ))}
             </StyledTabPanel>
           ))}
       </StyledTabs>

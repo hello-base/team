@@ -5,6 +5,8 @@ import { OrderedMap } from 'immutable';
 import styled from 'styled-components';
 import { Calendar, Home } from 'react-feather';
 
+import { Display as BirthdayDisplay } from 'components/Birthdays';
+
 import Item from './Item';
 
 const propTypes = {
@@ -84,7 +86,7 @@ const StyledTab = styled(Tab)`
 
   ${CategoryName} {
     top: ${props => (props.selected ? -12 : 0)}px;
-    color: ${props => (props.selected ? '#ECF8FD' : '#0c3242')};
+    color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
   }
   ${Corner} {
     top: ${props => (props.selected ? 44 : 104)}px;
@@ -95,14 +97,13 @@ StyledTab.tabsRole = 'Tab';
 
 const StyledIconTab = styled(StyledTab)`
   flex: none;
-  color: ${props => (props.selected ? '#e8ebed' : '#4f5c69')};
+  color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
 `;
 StyledIconTab.tabsRole = 'Tab';
 
 const StyledTabPanel = styled(TabPanel)`
   grid-column: 1;
   grid-row: 2;
-  padding-top: 30px;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -121,10 +122,14 @@ function Display(props) {
   const { news } = props;
   return (
     <Wrapper className={props.className}>
-      <StyledTabs defaultFocus>
+      <StyledTabs defaultFocus defaultIndex={1}>
         <TabList>
-          {/* <StyledIconTab><Home /></StyledIconTab>
-          <StyledIconTab><Calendar /></StyledIconTab> */}
+          <StyledIconTab>
+            <Home />
+          </StyledIconTab>
+          <StyledIconTab>
+            <Calendar />
+          </StyledIconTab>
           {news
             .keySeq()
             .toArray()
@@ -136,8 +141,10 @@ function Display(props) {
             ))}
         </TabList>
 
-        {/* <StyledTabPanel />
-        <StyledTabPanel /> */}
+        <StyledTabPanel />
+        <StyledTabPanel>
+          <BirthdayDisplay />
+        </StyledTabPanel>
         {news
           .entrySeq()
           .map(([category, items]) => (

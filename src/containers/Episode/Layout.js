@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Particles from 'react-particles-js';
 
 import { Header } from 'components/Episode';
-import { Display } from 'components/News';
+import { Display as NewsDisplay } from 'components/News';
 import configuration from 'helpers/particles';
 
 const propTypes = {
@@ -33,7 +33,7 @@ const StyledHeader = styled(Header)`
   z-index: 100;
 `;
 
-const StyledDisplay = styled(Display)`
+const StyledNewsDisplay = styled(NewsDisplay)`
   z-index: 100;
 `;
 
@@ -49,7 +49,7 @@ function Layout(props) {
   return (
     <Container>
       <StyledHeader episode={episodeId} date={props.date} />
-      <StyledDisplay news={props.news} />
+      <StyledNewsDisplay news={props.news} />
       <StyledParticles params={configuration} />
     </Container>
   );

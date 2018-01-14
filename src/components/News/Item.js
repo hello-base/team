@@ -11,7 +11,7 @@ const propTypes = {
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
   grid-template-rows: 1fr auto;
   overflow: hidden;
 
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 
 const Headline = styled.div`
-  grid-column: 2;
+  grid-column: 1;
   padding: 20px;
 
   color: #fff;
@@ -34,7 +34,7 @@ const Headline = styled.div`
 `;
 
 const Metadata = styled.div`
-  grid-column: 2;
+  grid-column: 1 / span 2;
   grid-row: 2;
 
   display: flex;
@@ -43,18 +43,6 @@ const Metadata = styled.div`
 
   background: #020e13;
   border-top: 1px solid #062938;
-`;
-
-const Category = styled.div`
-  font-family: ${props => props.theme.gotham};
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-`;
-
-const Description = styled.div`
-  font-family: ${props => props.theme.ideal};
-  font-size: 16px;
 `;
 
 const LinkList = styled.div`
@@ -87,20 +75,23 @@ const LinkItem = styled.div`
   }
 `;
 
-const ImageList = styled.ul`
-  margin: 0;
-  padding: 0;
-  height: 60px;
+const ImageList = styled.div`
+  grid-column: 2;
+  margin-left: -5px;
+  padding: 20px;
   overflow: hidden;
 
-  display: flex;
   align-items: center;
+`;
 
-  li {
-    flex: 1;
-  }
-  img {
-    width: 100%;
+const ImageItem = styled.div`
+  a {
+    color: #0b516f;
+    transition: all 250ms ease;
+
+    &:hover {
+      color: #fff;
+    }
   }
 `;
 
@@ -121,23 +112,27 @@ function Links({ title, list }) {
   );
 }
 
-// function Images({ list }) {
-//   return (
-//     !list.isEmpty() && (
-//       <ImageList>
-//         {list.map(url => <li><img src={url} alt="references" /></li>)}
-//       </ImageList>
-//     )
-//   );
-// }
+function Images({ list }) {
+  return (
+    !list.isEmpty() && (
+      <ImageList>
+        {list.map(url => (
+          <ImageItem>
+            <a href={url} alt={url} target="_blank">
+              <Image size={24} />
+            </a>
+          </ImageItem>
+        ))}
+      </ImageList>
+    )
+  );
+}
 
-function Item({ category, item }) {
+function Item({ item }) {
   return (
     <Wrapper>
-      {/* <Images list={item.get('images')} /> */}
-      {/* <Category><Folder size={16} /> {category}</Category> */}
       <Headline>{item.get('headline')}</Headline>
-      {/* <Description>{item.get('description')}</Description> */}
+      <Images list={item.get('images')} />
       <Metadata>
         <Links title="Sources" list={item.get('sources')} />
         <Links title="Refs" list={item.get('references')} />

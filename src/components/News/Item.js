@@ -19,7 +19,6 @@ const Wrapper = styled.div`
 
   box-shadow: inset 0 0 0 1px #09445d, inset 0 0 0 3px #062938;
   background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 0;
 `;
 
 const Headline = styled.div`

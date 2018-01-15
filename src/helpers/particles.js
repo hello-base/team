@@ -3,7 +3,7 @@ const configuration = {
     number: {
       value: 80,
       density: {
-        enable: true,
+        enable: false,
         value_area: 800
       }
     },

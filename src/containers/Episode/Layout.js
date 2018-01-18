@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OrderedMap } from 'immutable';
+import { List, OrderedMap } from 'immutable';
 
 import styled from 'styled-components';
 import Particles from 'react-particles-js';
@@ -11,6 +11,7 @@ import configuration from 'helpers/particles';
 
 const propTypes = {
   date: PropTypes.string,
+  corners: PropTypes.instanceOf(List),
   news: PropTypes.instanceOf(OrderedMap),
   match: PropTypes.shape({
     params: PropTypes.object
@@ -18,6 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  corners: List(),
   date: '',
   news: OrderedMap()
 };
@@ -50,7 +52,7 @@ function Layout(props) {
   return (
     <Container>
       <StyledHeader episode={episodeId} date={props.date} />
-      <StyledContent news={props.news} />
+      <StyledContent corners={props.corners} news={props.news} />
       <StyledParticles params={configuration} />
     </Container>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
 import moment from 'moment';
+import uniqid from 'uniqid';
+
+import styled from 'styled-components';
 
 const birthdayList = [
   { birthdate: '1/6/2018', age: '16', name: 'Yanagawa Nanami' },
@@ -107,7 +108,7 @@ function Display() {
   return (
     <Wrapper>
       {birthdayList.map(member => (
-        <Birthday>
+        <Birthday key={uniqid()}>
           <Name>
             {member.name}
             {/* <Group>{member.group}</Group> */}

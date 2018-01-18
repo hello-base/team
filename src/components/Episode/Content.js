@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { OrderedMap } from 'immutable';
+import { List, OrderedMap } from 'immutable';
+import uniqid from 'uniqid';
 
 import styled from 'styled-components';
 import { Calendar, Home } from 'react-feather';
@@ -9,7 +10,10 @@ import { Calendar, Home } from 'react-feather';
 import { Display as BirthdayDisplay } from 'components/Birthdays';
 import { Item as NewsItem } from 'components/News';
 
+import Corners from './Corners';
+
 const propTypes = {
+  corners: PropTypes.instanceOf(List).isRequired,
   news: PropTypes.instanceOf(OrderedMap).isRequired,
   className: PropTypes.string.isRequired
 };
@@ -68,7 +72,7 @@ const Corner = styled.div`
 `;
 
 const StyledTab = styled(Tab)`
-  flex: ${props => (props.iconOnly ? 'none' : 1)};
+  flex: ${props => (props.icononly ? 'none' : 1)};
   align-self: stretch;
 
   position: relative;
@@ -77,7 +81,7 @@ const StyledTab = styled(Tab)`
   justify-content: center;
   overflow: hidden;
   margin: 0 30px 0 0;
-  min-width: ${props => (props.iconOnly ? 'auto' : '136px')};
+  min-width: ${props => (props.icononly ? 'auto' : '136px')};
 
   box-shadow: inset 0 ${props => (props.selected ? 6 : 0)}px 0 #2db0ea;
   color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
@@ -118,60 +122,57 @@ const CurrentCorner = () => (
   </Corner>
 );
 
-function Content(props) {
-  const { news } = props;
-  return (
-    <Wrapper className={props.className}>
-      <StyledTabs defaultFocus defaultIndex={1}>
-        <StyledTabList>
-          <StyledTab iconOnly>
-            <Home />
-          </StyledTab>
-          <StyledTab iconOnly>
-            <Calendar />
-          </StyledTab>
-          {news
-            .keySeq()
-            .toArray()
-            .map(category => (
-              <StyledTab>
-                <CategoryName>{category}</CategoryName>
-                <CurrentCorner />
-              </StyledTab>
-            ))}
-          <StyledTab>
-            <CategoryName>Performances</CategoryName>
-            <CurrentCorner />
-          </StyledTab>
-          <StyledTab>
-            <CategoryName>Corners</CategoryName>
-            <CurrentCorner />
-          </StyledTab>
-        </StyledTabList>
+const renderTabs = ({ news }) => (
+  <StyledTabList>
+    <StyledTab icononly="true">
+      <Home />
+    </StyledTab>
+    <StyledTab icononly="true">
+      <Calendar />
+    </StyledTab>
+    {news
+      .keySeq()
+      .toArray()
+      .map(category => (
+        <StyledTab key={uniqid()}>
+          <CategoryName>{category}</CategoryName>
+          <CurrentCorner />
+        </StyledTab>
+      ))}
+    <StyledTab>
+      <CategoryName>Performances</CategoryName>
+      <CurrentCorner />
+    </StyledTab>
+    <StyledTab>
+      <CategoryName>Corners</CategoryName>
+      <CurrentCorner />
+    </StyledTab>
+  </StyledTabList>
+);
 
-        <StyledTabPanel />
-        <StyledTabPanel>
-          <BirthdayDisplay />
-        </StyledTabPanel>
-        {news
-          .entrySeq()
-          .map(([category, items]) => (
-            <StyledTabPanel>
-              {items.map(item => (
-                <NewsItem
-                  key={item.get('pk')}
-                  category={category}
-                  item={item}
-                />
-              ))}
-            </StyledTabPanel>
-          ))}
-        <StyledTabPanel />
-        <StyledTabPanel />
-      </StyledTabs>
-    </Wrapper>
-  );
-}
+const Content = props => (
+  <Wrapper className={props.className}>
+    <StyledTabs defaultFocus defaultIndex={6}>
+      {renderTabs(props)}
+
+      <StyledTabPanel />
+      <StyledTabPanel>
+        <BirthdayDisplay />
+      </StyledTabPanel>
+      {props.news
+        .valueSeq()
+        .map(items => (
+          <StyledTabPanel key={uniqid()}>
+            {items.map(item => <NewsItem key={item.get('pk')} item={item} />)}
+          </StyledTabPanel>
+        ))}
+      <StyledTabPanel />
+      <StyledTabPanel>
+        <Corners list={props.corners} />
+      </StyledTabPanel>
+    </StyledTabs>
+  </Wrapper>
+);
 
 Content.propTypes = propTypes;
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import uniqid from 'uniqid';
+
 import styled from 'styled-components';
 import { Folder, Image, Link2 } from 'react-feather';
 
 const propTypes = {
-  category: PropTypes.string.isRequired,
   item: PropTypes.instanceOf(Map).isRequired
 };
 
@@ -100,7 +101,7 @@ function Links({ title, list }) {
       <LinkList>
         <ListHeader>{title}</ListHeader>
         {list.map(url => (
-          <LinkItem>
+          <LinkItem key={uniqid()}>
             <a href={url} alt={url} target="_blank">
               <Link2 size={15} />
             </a>
@@ -116,7 +117,7 @@ function Images({ list }) {
     !list.isEmpty() && (
       <ImageList>
         {list.map(url => (
-          <ImageItem>
+          <ImageItem key={uniqid()}>
             <a href={url} alt={url} target="_blank">
               <Image size={24} />
             </a>

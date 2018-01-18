@@ -23,22 +23,23 @@ const Wrapper = styled.div`
 const StyledTabs = styled(Tabs)`
   display: grid;
   grid-template-rows: 90px 1fr;
-
-  .react-tabs__tab-list {
-    grid-row: 1;
-
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-
-    font-family: ${props => props.theme.ideal};
-    font-style: italic;
-    font-size: 18px;
-    letter-spacing: -1px;
-    list-style: none;
-  }
 `;
+
+const StyledTabList = styled(TabList)`
+  grid-row: 1;
+
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  font-family: ${props => props.theme.ideal};
+  font-style: italic;
+  font-size: 18px;
+  letter-spacing: -1px;
+  list-style: none;
+`;
+StyledTabList.tabsRole = 'TabList';
 
 const CategoryName = styled.span`
   position: relative;
@@ -85,6 +86,9 @@ const StyledTab = styled(Tab)`
   &:focus {
     outline: none;
   }
+  &:hover {
+    cursor: pointer;
+  }
 
   ${CategoryName} {
     top: ${props => (props.selected ? -12 : 0)}px;
@@ -119,7 +123,7 @@ function Content(props) {
   return (
     <Wrapper className={props.className}>
       <StyledTabs defaultFocus defaultIndex={1}>
-        <TabList>
+        <StyledTabList>
           <StyledTab iconOnly>
             <Home />
           </StyledTab>
@@ -143,7 +147,7 @@ function Content(props) {
             <CategoryName>Corners</CategoryName>
             <CurrentCorner />
           </StyledTab>
-        </TabList>
+        </StyledTabList>
 
         <StyledTabPanel />
         <StyledTabPanel>

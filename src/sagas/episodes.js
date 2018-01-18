@@ -8,7 +8,7 @@ const { episodeFetch } = actions;
 
 function* fetchEpisode(id) {
   try {
-    const uri = `https://hello-team-api.herokuapp.com/episodes/${id}/`;
+    const uri = `https://api.hellote.am/episodes/${id}/`;
     const response = yield call(axios.get, uri);
     yield put(episodeFetch.success(response.data));
   } catch (error) {

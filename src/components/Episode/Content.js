@@ -54,9 +54,9 @@ const Corner = styled.div`
   span {
     padding: 3px 6px;
 
-    background: linear-gradient(#2db0ea, #1495cc);
+    box-shadow: inset 0 0 0 1px #1495cc;
     border-radius: 2px;
-    color: #fff;
+    color: #2db0ea;
     font-family: ${props => props.theme.gotham};
     font-style: normal;
     font-size: 12px;
@@ -67,7 +67,7 @@ const Corner = styled.div`
 `;
 
 const StyledTab = styled(Tab)`
-  flex: 1;
+  flex: ${props => (props.iconOnly ? 'none' : 1)};
   align-self: stretch;
 
   position: relative;
@@ -76,8 +76,10 @@ const StyledTab = styled(Tab)`
   justify-content: center;
   overflow: hidden;
   margin: 0 30px 0 0;
+  min-width: ${props => (props.iconOnly ? 'auto' : '136px')};
 
   box-shadow: inset 0 ${props => (props.selected ? 6 : 0)}px 0 #2db0ea;
+  color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
   transition: 250ms all ease;
 
   &:focus {
@@ -94,12 +96,6 @@ const StyledTab = styled(Tab)`
   }
 `;
 StyledTab.tabsRole = 'Tab';
-
-const StyledIconTab = styled(StyledTab)`
-  flex: none;
-  color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
-`;
-StyledIconTab.tabsRole = 'Tab';
 
 const StyledTabPanel = styled(TabPanel)`
   grid-column: 1;
@@ -124,12 +120,12 @@ function Content(props) {
     <Wrapper className={props.className}>
       <StyledTabs defaultFocus defaultIndex={1}>
         <TabList>
-          <StyledIconTab>
+          <StyledTab iconOnly>
             <Home />
-          </StyledIconTab>
-          <StyledIconTab>
+          </StyledTab>
+          <StyledTab iconOnly>
             <Calendar />
-          </StyledIconTab>
+          </StyledTab>
           {news
             .keySeq()
             .toArray()
@@ -139,6 +135,14 @@ function Content(props) {
                 <CurrentCorner />
               </StyledTab>
             ))}
+          <StyledTab>
+            <CategoryName>Performances</CategoryName>
+            <CurrentCorner />
+          </StyledTab>
+          <StyledTab>
+            <CategoryName>Corners</CategoryName>
+            <CurrentCorner />
+          </StyledTab>
         </TabList>
 
         <StyledTabPanel />
@@ -158,6 +162,8 @@ function Content(props) {
               ))}
             </StyledTabPanel>
           ))}
+        <StyledTabPanel />
+        <StyledTabPanel />
       </StyledTabs>
     </Wrapper>
   );

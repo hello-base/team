@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OrderedMap } from 'immutable';
+
 import styled from 'styled-components';
 import Particles from 'react-particles-js';
+import { size } from 'polished';
 
-import { Header } from 'components/Episode';
-import { Display as NewsDisplay } from 'components/News';
+import { Header, Content } from 'components/Episode';
 import configuration from 'helpers/particles';
 
 const propTypes = {
@@ -33,15 +34,15 @@ const StyledHeader = styled(Header)`
   z-index: 100;
 `;
 
-const StyledNewsDisplay = styled(NewsDisplay)`
+const StyledContent = styled(Content)`
   z-index: 100;
 `;
 
 const StyledParticles = styled(Particles)`
   position: absolute;
-  width: 1600px;
-  height: 900px;
   z-index: 1;
+
+  ${size('1600px', '900px')};
 `;
 
 function Layout(props) {
@@ -49,7 +50,7 @@ function Layout(props) {
   return (
     <Container>
       <StyledHeader episode={episodeId} date={props.date} />
-      <StyledNewsDisplay news={props.news} />
+      <StyledContent news={props.news} />
       <StyledParticles params={configuration} />
     </Container>
   );

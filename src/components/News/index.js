@@ -1,1 +1,3 @@
-export { default as Display } from './Display';
+/* eslint-disable import/prefer-default-export */
+
+export { default as Item } from './Item';

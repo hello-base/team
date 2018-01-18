@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { OrderedMap } from 'immutable';
+
 import styled from 'styled-components';
 import { Calendar, Home } from 'react-feather';
 
 import { Display as BirthdayDisplay } from 'components/Birthdays';
-
-import Item from './Item';
+import { Item as NewsItem } from 'components/News';
 
 const propTypes = {
   news: PropTypes.instanceOf(OrderedMap).isRequired,
@@ -118,7 +118,7 @@ const CurrentCorner = () => (
   </Corner>
 );
 
-function Display(props) {
+function Content(props) {
   const { news } = props;
   return (
     <Wrapper className={props.className}>
@@ -150,7 +150,11 @@ function Display(props) {
           .map(([category, items]) => (
             <StyledTabPanel>
               {items.map(item => (
-                <Item key={item.get('pk')} category={category} item={item} />
+                <NewsItem
+                  key={item.get('pk')}
+                  category={category}
+                  item={item}
+                />
               ))}
             </StyledTabPanel>
           ))}
@@ -159,6 +163,6 @@ function Display(props) {
   );
 }
 
-Display.propTypes = propTypes;
+Content.propTypes = propTypes;
 
-export default Display;
+export default Content;

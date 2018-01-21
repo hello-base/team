@@ -13,9 +13,16 @@ import { Item as NewsItem } from 'components/News';
 import Corners from './Corners';
 
 const propTypes = {
-  corners: PropTypes.instanceOf(List).isRequired,
-  news: PropTypes.instanceOf(OrderedMap).isRequired,
   className: PropTypes.string.isRequired
+};
+
+const tabsPropTypes = {
+  news: PropTypes.instanceOf(OrderedMap).isRequired
+};
+
+const panelsPropTypes = {
+  corners: PropTypes.instanceOf(List).isRequired,
+  news: PropTypes.instanceOf(OrderedMap).isRequired
 };
 
 const Wrapper = styled.div`
@@ -40,8 +47,6 @@ const StyledTabList = styled(TabList)`
   font-family: ${props => props.theme.ideal};
   font-style: italic;
   font-size: 18px;
-  letter-spacing: -1px;
-  list-style: none;
 `;
 StyledTabList.tabsRole = 'TabList';
 
@@ -51,24 +56,21 @@ const CategoryName = styled.span`
   transition: 250ms all ease;
 `;
 
-const Corner = styled.div`
+const CurrentBubble = styled.div`
   display: block;
   position: absolute;
   transition: 250ms all ease;
+`;
 
-  span {
-    padding: 3px 6px;
+const CurrentText = styled.span`
+  padding: 3px 6px;
 
-    box-shadow: inset 0 0 0 1px #1495cc;
-    border-radius: 2px;
-    color: #2db0ea;
-    font-family: ${props => props.theme.gotham};
-    font-style: normal;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0;
-    text-transform: uppercase;
-  }
+  box-shadow: inset 0 0 0 1px #1495cc;
+  border-radius: 2px;
+  color: #2db0ea;
+  font-family: ${props => props.theme.gotham};
+  font-style: normal;
+  font-size: 12px;
 `;
 
 const StyledTab = styled(Tab)`
@@ -79,7 +81,6 @@ const StyledTab = styled(Tab)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
   margin: 0 30px 0 0;
   min-width: ${props => (props.icononly ? 'auto' : '136px')};
 
@@ -98,7 +99,7 @@ const StyledTab = styled(Tab)`
     top: ${props => (props.selected ? -12 : 0)}px;
     color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
   }
-  ${Corner} {
+  ${CurrentBubble} {
     top: ${props => (props.selected ? 44 : 104)}px;
     opacity: ${props => (props.selected ? 1 : 0)};
   }
@@ -116,64 +117,70 @@ const StyledTabPanel = styled(TabPanel)`
 `;
 StyledTabPanel.tabsRole = 'TabPanel';
 
-const CurrentCorner = () => (
-  <Corner>
-    <span>Current Corner</span>
-  </Corner>
-);
+const CategoryTab = ({ icon, name, showCurrent }) => [
+  icon && icon,
+  name && <CategoryName key={uniqid()}>{name}</CategoryName>,
+  showCurrent && (
+    <CurrentBubble key={uniqid()}>
+      <CurrentText>CURRENT CORNER</CurrentText>
+    </CurrentBubble>
+  )
+];
 
-const renderTabs = ({ news }) => (
+const renderTabs = props => (
   <StyledTabList>
     <StyledTab icononly="true">
-      <Home />
+      <CategoryTab icon={<Home key={uniqid()} />} />
     </StyledTab>
     <StyledTab icononly="true">
-      <Calendar />
+      <CategoryTab icon={<Calendar key={uniqid()} />} />
     </StyledTab>
-    {news
+    {props.news
       .keySeq()
       .toArray()
       .map(category => (
         <StyledTab key={uniqid()}>
-          <CategoryName>{category}</CategoryName>
-          <CurrentCorner />
+          <CategoryTab name={category} showCurrent />
         </StyledTab>
       ))}
     <StyledTab>
-      <CategoryName>Performances</CategoryName>
-      <CurrentCorner />
+      <CategoryTab name="Performances" showCurrent />
     </StyledTab>
     <StyledTab>
-      <CategoryName>Corners</CategoryName>
-      <CurrentCorner />
+      <CategoryTab name="Corners" showCurrent />
     </StyledTab>
   </StyledTabList>
 );
+
+const renderPanels = props => [
+  <StyledTabPanel key={uniqid()} />,
+  <StyledTabPanel key={uniqid()}>
+    <BirthdayDisplay />
+  </StyledTabPanel>,
+  props.news
+    .valueSeq()
+    .map(items => (
+      <StyledTabPanel key={uniqid()}>
+        {items.map(item => <NewsItem key={item.get('pk')} item={item} />)}
+      </StyledTabPanel>
+    )),
+  <StyledTabPanel key={uniqid()} />,
+  <StyledTabPanel key={uniqid()}>
+    <Corners list={props.corners} />
+  </StyledTabPanel>
+];
 
 const Content = props => (
   <Wrapper className={props.className}>
     <StyledTabs defaultFocus defaultIndex={6}>
       {renderTabs(props)}
-
-      <StyledTabPanel />
-      <StyledTabPanel>
-        <BirthdayDisplay />
-      </StyledTabPanel>
-      {props.news
-        .valueSeq()
-        .map(items => (
-          <StyledTabPanel key={uniqid()}>
-            {items.map(item => <NewsItem key={item.get('pk')} item={item} />)}
-          </StyledTabPanel>
-        ))}
-      <StyledTabPanel />
-      <StyledTabPanel>
-        <Corners list={props.corners} />
-      </StyledTabPanel>
+      {renderPanels(props)}
     </StyledTabs>
   </Wrapper>
 );
 
 Content.propTypes = propTypes;
+renderTabs.propTypes = tabsPropTypes;
+renderPanels.propTypes = panelsPropTypes;
 
 export default Content;

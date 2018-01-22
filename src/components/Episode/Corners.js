@@ -70,11 +70,11 @@ const Corner = ({ corner, name, selected }) => (
 
 class Corners extends Component {
   state = {
-    selectedCorner: '',
     options: this.props.list.toJS().map(corner => ({
       value: corner.slug,
       label: corner.name
-    }))
+    })),
+    selectedCorner: ''
   };
 
   handleChange = selectedCorner => {

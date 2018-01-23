@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
 import moment from 'moment';
+
+import styled from 'styled-components';
+import { rgba } from 'polished';
 
 import logomark from './logomark.svg';
 
@@ -17,12 +18,15 @@ const Wrapper = styled.div`
   grid-row: span 2;
 
   position: relative;
+  margin: 6px 0 6px 6px;
   padding: 30px;
+  overflow: hidden;
 
+  background-color: ${rgba('#020e13', 0.7)};
+  box-shadow: 1px 0 0 #062938;
   color: #fff;
   font-family: ${props => props.theme.gotham};
   font-size: 18px;
-
   user-select: none;
 `;
 

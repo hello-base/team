@@ -5,6 +5,7 @@ import { List, OrderedMap } from 'immutable';
 import uniqid from 'uniqid';
 
 import styled from 'styled-components';
+import { rgba } from 'polished';
 import { Calendar, Home } from 'react-feather';
 
 import { Display as BirthdayDisplay } from 'components/Birthdays';
@@ -34,6 +35,7 @@ const Wrapper = styled.div`
 const StyledTabs = styled(Tabs)`
   display: grid;
   grid-template-rows: 90px 1fr;
+  height: 100%;
   margin-right: 6px;
 `;
 
@@ -46,7 +48,7 @@ const StyledTabList = styled(TabList)`
   padding: 0 30px;
   overflow: hidden;
 
-  box-shadow: inset 0 -1px 0 #062938;
+  box-shadow: inset 0 -1px 0 ${rgba('#062938', 0.5)};
   font-family: ${props => props.theme.ideal};
   font-style: italic;
   font-size: 18px;
@@ -116,10 +118,10 @@ const StyledTabPanel = styled(TabPanel)`
   grid-column: 1;
   grid-row: 2;
 
-  display: grid;
+  ${'' /* display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-flow: row;
-  grid-gap: 15px;
+  grid-gap: 15px; */};
 `;
 StyledTabPanel.tabsRole = 'TabPanel';
 
@@ -153,7 +155,7 @@ const renderTabs = props => (
       <CategoryTab name="Performances" showCurrent />
     </StyledTab>
     <StyledTab>
-      <CategoryTab name="Corners" showCurrent />
+      <CategoryTab name="Special Corners" showCurrent />
     </StyledTab>
   </StyledTabList>
 );

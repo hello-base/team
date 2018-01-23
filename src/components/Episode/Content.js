@@ -26,7 +26,7 @@ const panelsPropTypes = {
 };
 
 const Wrapper = styled.div`
-  grid-column: 5 / span 15;
+  grid-column: 5 / span 16;
   grid-row: 1;
   z-index: 10;
 `;
@@ -34,6 +34,7 @@ const Wrapper = styled.div`
 const StyledTabs = styled(Tabs)`
   display: grid;
   grid-template-rows: 90px 1fr;
+  margin-right: 6px;
 `;
 
 const StyledTabList = styled(TabList)`
@@ -42,8 +43,10 @@ const StyledTabList = styled(TabList)`
   display: flex;
   align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 0 30px;
+  overflow: hidden;
 
+  box-shadow: inset 0 -1px 0 #062938;
   font-family: ${props => props.theme.ideal};
   font-style: italic;
   font-size: 18px;
@@ -88,6 +91,9 @@ const StyledTab = styled(Tab)`
   color: ${props => (props.selected ? '#ecf8fd' : '#0c3242')};
   transition: 250ms all ease;
 
+  &:last-child {
+    margin-right: 0;
+  }
   &:focus {
     outline: none;
   }

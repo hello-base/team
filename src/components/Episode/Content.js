@@ -117,13 +117,17 @@ StyledTab.tabsRole = 'Tab';
 const StyledTabPanel = styled(TabPanel)`
   grid-column: 1;
   grid-row: 2;
-
-  ${'' /* display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-flow: row;
-  grid-gap: 15px; */};
 `;
 StyledTabPanel.tabsRole = 'TabPanel';
+
+const NewsWrapper = styled.div`
+  padding: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  grid-gap: 30px;
+`;
 
 const CategoryTab = ({ icon, name, showCurrent }) => [
   icon && icon,
@@ -165,13 +169,13 @@ const renderPanels = props => [
   <StyledTabPanel key={uniqid()}>
     <BirthdayDisplay />
   </StyledTabPanel>,
-  props.news
-    .valueSeq()
-    .map(items => (
-      <StyledTabPanel key={uniqid()}>
+  props.news.valueSeq().map(items => (
+    <StyledTabPanel key={uniqid()}>
+      <NewsWrapper>
         {items.map(item => <NewsItem key={item.get('pk')} item={item} />)}
-      </StyledTabPanel>
-    )),
+      </NewsWrapper>
+    </StyledTabPanel>
+  )),
   <StyledTabPanel key={uniqid()} />,
   <StyledTabPanel key={uniqid()}>
     <Corners list={props.corners} />
@@ -180,7 +184,7 @@ const renderPanels = props => [
 
 const Content = props => (
   <Wrapper className={props.className}>
-    <StyledTabs defaultFocus defaultIndex={6}>
+    <StyledTabs defaultFocus defaultIndex={4}>
       {renderTabs(props)}
       {renderPanels(props)}
     </StyledTabs>

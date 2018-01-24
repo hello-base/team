@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Slider from 'react-slick';
 import { Map } from 'immutable';
 import uniqid from 'uniqid';
 
 import styled from 'styled-components';
-import { Folder, Image, Link2 } from 'react-feather';
+import { Image, Link2, X } from 'react-feather';
+
+import Modal from './Modal';
 
 const propTypes = {
   item: PropTypes.instanceOf(Map).isRequired
@@ -75,26 +78,6 @@ const LinkItem = styled.div`
   }
 `;
 
-const ImageList = styled.div`
-  grid-column: 2;
-  margin-left: -5px;
-  padding: 20px;
-  overflow: hidden;
-
-  align-items: center;
-`;
-
-const ImageItem = styled.div`
-  a {
-    color: #0b516f;
-    transition: all 250ms ease;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-`;
-
 function Links({ title, list }) {
   return (
     !list.isEmpty() && (
@@ -112,27 +95,55 @@ function Links({ title, list }) {
   );
 }
 
-function Images({ list }) {
-  return (
-    !list.isEmpty() && (
-      <ImageList>
-        {list.map(url => (
-          <ImageItem key={uniqid()}>
-            <a href={url} alt={url} target="_blank">
-              <Image size={24} />
-            </a>
-          </ImageItem>
-        ))}
-      </ImageList>
-    )
-  );
+class ImageModal extends Component {
+  state = {
+    showModal: false
+  };
+
+  handleShow = () => this.setState({ showModal: true });
+
+  handleHide = () => this.setState({ showModal: false });
+
+  render() {
+    const settings = {
+      centerPadding: '0',
+      easing: 'cubic-bezier(.62, .28, .23, .99)',
+      speed: 300
+    };
+    const { title, list } = this.props;
+    const modal = this.state.showModal ? (
+      <Modal title={title}>
+        <CloseButton onClick={this.handleHide}>
+          <X size={24} />
+        </CloseButton>
+        <Slider {...settings}>
+          {list.map(url => (
+            <SliderImage key={uniqid()}>
+              <img src={url} alt={url} />
+            </SliderImage>
+          ))}
+        </Slider>
+      </Modal>
+    ) : null;
+
+    return (
+      <div>
+        <OpenButton onClick={this.handleShow}>
+          <Image size={24} />
+        </OpenButton>
+        {modal}
+      </div>
+    );
+  }
 }
 
 function Item({ item }) {
   return (
     <Wrapper>
       <Headline>{item.get('headline')}</Headline>
-      <Images list={item.get('images')} />
+      {!item.get('images').isEmpty() && (
+        <ImageModal title={item.get('headline')} list={item.get('images')} />
+      )}
       <Metadata>
         <Links title="Sources" list={item.get('sources')} />
         <Links title="Refs" list={item.get('references')} />
@@ -142,5 +153,43 @@ function Item({ item }) {
 }
 
 Item.propTypes = propTypes;
+
+const SliderImage = styled.div`
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 600px;
+    margin: 42px 0;
+  }
+`;
+
+const Button = styled.button`
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+  transition: all 250ms ease;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const CloseButton = styled(Button)`
+  position: absolute;
+  right: 28px;
+  top: -54px;
+`;
+
+const OpenButton = styled(Button)`
+  margin: 20px;
+  color: #0b516f;
+
+  &:hover {
+    color: #fff;
+  }
+`;
 
 export default Item;

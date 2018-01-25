@@ -37,7 +37,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalBox = styled.div`
-  width: 1216px;
+  width: 1280px;
 
   background: #fff;
   box-shadow: 0 19px 38px ${rgba('#000', 0.3)},
@@ -47,6 +47,7 @@ const ModalBox = styled.div`
 const ModalTitle = styled.div`
   padding: 20px 30px;
 
+  box-shadow: inset 0 -1px 0 #15536e;
   color: #15536e;
   font-family: ${props => props.theme.tungsten};
   font-size: 36px;

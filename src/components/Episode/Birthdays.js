@@ -45,14 +45,13 @@ const Name = styled.div`
 `;
 
 const Group = styled.span`
-  font-family: ${props => props.theme.gotham};
+  font-family: ${props => props.theme.ideal};
   font-style: italic;
   font-size: 12px;
 `;
 
-const Age = styled.div`
+const Age = styled.span`
   color: #8cd3f3;
-  font-family: ${props => props.theme.gotham};
 `;
 
 const BirthDate = styled.div`
@@ -76,8 +75,15 @@ const Display = props => (
       return (
         <Birthday key={uniqid()}>
           <BirthDate>{moment(birthday).format('MMMM Do')}</BirthDate>
-          <Name>{member.get('name')}</Name>
-          <Age>{moment(thisBirthday).diff(birthday, 'years')} years old</Age>
+          <Name>
+            {member.get('name')}
+            <Age> ({moment(thisBirthday).diff(birthday, 'years')})</Age>
+          </Name>
+          {member.get('affiliation') && (
+            <Group>
+              <strong>{member.get('affiliation')}</strong>
+            </Group>
+          )}
         </Birthday>
       );
     })}

@@ -14,6 +14,7 @@ const propTypes = {
   birthdays: PropTypes.instanceOf(List),
   corners: PropTypes.instanceOf(List),
   news: PropTypes.instanceOf(OrderedMap),
+  viewings: PropTypes.instanceOf(List),
   match: PropTypes.shape({
     params: PropTypes.object
   }).isRequired
@@ -23,7 +24,8 @@ const defaultProps = {
   birthdays: List(),
   corners: List(),
   date: '',
-  news: OrderedMap()
+  news: OrderedMap(),
+  viewings: List()
 };
 
 const Container = styled.div`

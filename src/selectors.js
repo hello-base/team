@@ -12,6 +12,7 @@ export const getEpisodeNewsByCategory = state => {
     return news.groupBy(x => x.get('category'));
   }
 };
+export const getEpisodeViewings = state => state.detail.get('viewings');
 
 export const getBirthdays = state => state.detail.get('birthdays');
 export const getCorners = state => state.corners.get('corners');

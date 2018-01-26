@@ -2,10 +2,12 @@ import { fromJS } from 'immutable';
 
 import * as episodes from 'actions/episodes';
 import * as news from 'actions/news';
+import * as viewings from 'actions/viewings';
 
 const initialState = fromJS({
   isEpisodeFetching: true,
   isNewsFetching: true,
+  isViewingsFetching: true,
   error: '',
   news: []
 });
@@ -41,6 +43,20 @@ const detail = (state = initialState, action) => {
       return state.merge({
         isNewsFetching: false,
         news: action.payload
+      });
+    case viewings.VIEWINGS_FETCH.REQUEST:
+      return state.merge({
+        isViewingsFetching: true
+      });
+    case viewings.VIEWINGS_FETCH.FAILURE:
+      return state.merge({
+        isViewingsFetching: false,
+        error: action.error
+      });
+    case viewings.VIEWINGS_FETCH.SUCCESS:
+      return state.merge({
+        isViewingsFetching: false,
+        viewings: action.payload
       });
     default:
       return state;

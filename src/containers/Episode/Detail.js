@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { cornerFetch } from 'actions/corners';
 import { episodeFetch } from 'actions/episodes';
 import { newsFetch } from 'actions/news';
+import { viewingsFetch } from 'actions/viewings';
 import * as selectors from 'selectors';
 
 import Error from './Error';
@@ -20,7 +21,8 @@ const propTypes = {
   }).isRequired,
   cornerRequest: PropTypes.func.isRequired,
   episodeRequest: PropTypes.func.isRequired,
-  newsRequest: PropTypes.func.isRequired
+  newsRequest: PropTypes.func.isRequired,
+  viewingsRequest: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
@@ -40,6 +42,7 @@ class Detail extends Component {
     this.props.cornerRequest();
     this.props.episodeRequest(episodeId);
     this.props.newsRequest(episodeId);
+    this.props.viewingsRequest(episodeId);
   }
 
   render() {
@@ -63,7 +66,8 @@ function mapStateToProps(state) {
     birthdays: selectors.getBirthdays(state),
     corners: selectors.getCorners(state),
     date: selectors.getEpisodeDate(state),
-    news: selectors.getEpisodeNewsByCategory(state)
+    news: selectors.getEpisodeNewsByCategory(state),
+    viewings: selectors.getEpisodeViewings(state)
   };
 }
 
@@ -72,7 +76,8 @@ function mapDispatchToProps(dispatch) {
     {
       cornerRequest: () => dispatch(cornerFetch.request()),
       episodeRequest: id => dispatch(episodeFetch.request(id)),
-      newsRequest: id => dispatch(newsFetch.request(id))
+      newsRequest: id => dispatch(newsFetch.request(id)),
+      viewingsRequest: id => dispatch(viewingsFetch.request(id))
     },
     dispatch
   );

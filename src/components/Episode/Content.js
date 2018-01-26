@@ -10,8 +10,9 @@ import { Calendar, Home } from 'react-feather';
 
 import { Item as NewsItem } from 'components/News';
 
-import BirthdayDisplay from './Birthdays';
+import Birthdays from './Birthdays';
 import Corners from './Corners';
+import Viewings from './Viewings';
 
 const propTypes = {
   className: PropTypes.string.isRequired
@@ -168,7 +169,7 @@ const renderTabs = props => (
 const renderPanels = props => [
   <StyledTabPanel key={uniqid()} />,
   <StyledTabPanel key={uniqid()}>
-    <BirthdayDisplay birthdays={props.birthdays} />
+    <Birthdays birthdays={props.birthdays} />
   </StyledTabPanel>,
   props.news.valueSeq().map(items => (
     <StyledTabPanel key={uniqid()}>
@@ -177,7 +178,9 @@ const renderPanels = props => [
       </NewsWrapper>
     </StyledTabPanel>
   )),
-  <StyledTabPanel key={uniqid()} />,
+  <StyledTabPanel key={uniqid()}>
+    <Viewings viewings={props.viewings} />
+  </StyledTabPanel>,
   <StyledTabPanel key={uniqid()}>
     <Corners list={props.corners} />
   </StyledTabPanel>

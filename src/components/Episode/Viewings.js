@@ -24,9 +24,15 @@ const Wrapper = styled.div`
 
 const Display = props => (
   <Wrapper>
-    {props.viewings.map(viewing => {
-      console.log(viewing);
-    })}
+    {props.viewings.map(viewing => (
+      <div key={viewing.get('pk')}>
+        {viewing.get('song')}
+        {viewing.get('performer')}
+        {viewing.get('headline')}
+        {viewing.get('url')}
+        {viewing.get('embed_url')}
+      </div>
+    ))}
   </Wrapper>
 );
 

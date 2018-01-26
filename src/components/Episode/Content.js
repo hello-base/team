@@ -157,7 +157,7 @@ const renderTabs = props => (
         </StyledTab>
       ))}
     <StyledTab>
-      <CategoryTab name="Performances" showCurrent />
+      <CategoryTab name="Viewings" showCurrent />
     </StyledTab>
     <StyledTab>
       <CategoryTab name="Special Corners" showCurrent />

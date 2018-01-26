@@ -11,6 +11,7 @@ import { Calendar, Home } from 'react-feather';
 import { Item as NewsItem } from 'components/News';
 
 import Birthdays from './Birthdays';
+import Casters from './Casters';
 import Corners from './Corners';
 import Viewings from './Viewings';
 
@@ -23,6 +24,7 @@ const tabsPropTypes = {
 };
 
 const panelsPropTypes = {
+  casters: PropTypes.instanceOf(List).isRequired,
   birthdays: PropTypes.instanceOf(List).isRequired,
   corners: PropTypes.instanceOf(List).isRequired,
   news: PropTypes.instanceOf(OrderedMap).isRequired
@@ -167,7 +169,9 @@ const renderTabs = props => (
 );
 
 const renderPanels = props => [
-  <StyledTabPanel key={uniqid()} />,
+  <StyledTabPanel key={uniqid()}>
+    <Casters casters={props.casters} />
+  </StyledTabPanel>,
   <StyledTabPanel key={uniqid()}>
     <Birthdays birthdays={props.birthdays} />
   </StyledTabPanel>,

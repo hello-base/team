@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
+import { casterFetch } from 'actions/casters';
 import { cornerFetch } from 'actions/corners';
 import { episodeFetch } from 'actions/episodes';
 import { newsFetch } from 'actions/news';
@@ -19,6 +20,7 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object
   }).isRequired,
+  casterRequest: PropTypes.func.isRequired,
   cornerRequest: PropTypes.func.isRequired,
   episodeRequest: PropTypes.func.isRequired,
   newsRequest: PropTypes.func.isRequired,
@@ -39,6 +41,7 @@ const Wrapper = styled.div`
 class Detail extends Component {
   componentDidMount() {
     const { episodeId } = this.props.match.params;
+    this.props.casterRequest();
     this.props.cornerRequest();
     this.props.episodeRequest(episodeId);
     this.props.newsRequest(episodeId);
@@ -64,6 +67,7 @@ function mapStateToProps(state) {
     isFetching: selectors.isEpisodeFetching(state),
     error: selectors.errorFetchingEpisode(state),
     birthdays: selectors.getBirthdays(state),
+    casters: selectors.getCasters(state),
     corners: selectors.getCorners(state),
     date: selectors.getEpisodeDate(state),
     news: selectors.getEpisodeNewsByCategory(state),
@@ -74,6 +78,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
+      casterRequest: () => dispatch(casterFetch.request()),
       cornerRequest: () => dispatch(cornerFetch.request()),
       episodeRequest: id => dispatch(episodeFetch.request(id)),
       newsRequest: id => dispatch(newsFetch.request(id)),

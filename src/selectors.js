@@ -15,4 +15,5 @@ export const getEpisodeNewsByCategory = state => {
 export const getEpisodeViewings = state => state.detail.get('viewings');
 
 export const getBirthdays = state => state.detail.get('birthdays');
+export const getCasters = state => state.casters.get('casters');
 export const getCorners = state => state.corners.get('corners');

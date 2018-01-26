@@ -22,10 +22,28 @@ const Wrapper = styled.div`
   color: #fff;
 `;
 
+const Name = styled.div`
+  flex: 1;
+  font-family: ${props => props.theme.tungsten};
+  font-size: 36px;
+`;
+
+const Handle = styled.div``;
+
+const Oshi = styled.div``;
+
 const Display = props => (
   <Wrapper>
     {props.casters.map(caster => (
-      <div key={caster.get('username')}>{caster.get('nickname')}</div>
+      <div key={caster.get('username')}>
+        <Name>{caster.get('nickname')}</Name>
+        <Handle>{caster.get('username')}</Handle>
+        <Oshi>
+          <strong>{caster.get('kamioshi')}</strong>,{' '}
+          {caster.get('oshi_overall')}
+          Current H!P Loves {caster.get('oshi_current')}
+        </Oshi>
+      </div>
     ))}
   </Wrapper>
 );

@@ -60,6 +60,7 @@ function mapStateToProps(state) {
   return {
     isFetching: selectors.isEpisodeFetching(state),
     error: selectors.errorFetchingEpisode(state),
+    birthdays: selectors.getBirthdays(state),
     corners: selectors.getCorners(state),
     date: selectors.getEpisodeDate(state),
     news: selectors.getEpisodeNewsByCategory(state)

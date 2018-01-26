@@ -25,7 +25,8 @@ const detail = (state = initialState, action) => {
       return state.merge({
         isEpisodeFetching: false,
         number: action.payload.number,
-        date: action.payload.date
+        date: action.payload.date,
+        birthdays: action.payload.birthdays
       });
     case news.NEWS_FETCH.REQUEST:
       return state.merge({

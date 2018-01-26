@@ -8,9 +8,9 @@ import styled from 'styled-components';
 import { rgba } from 'polished';
 import { Calendar, Home } from 'react-feather';
 
-import { Display as BirthdayDisplay } from 'components/Birthdays';
 import { Item as NewsItem } from 'components/News';
 
+import BirthdayDisplay from './Birthdays';
 import Corners from './Corners';
 
 const propTypes = {
@@ -22,6 +22,7 @@ const tabsPropTypes = {
 };
 
 const panelsPropTypes = {
+  birthdays: PropTypes.instanceOf(List).isRequired,
   corners: PropTypes.instanceOf(List).isRequired,
   news: PropTypes.instanceOf(OrderedMap).isRequired
 };
@@ -167,7 +168,7 @@ const renderTabs = props => (
 const renderPanels = props => [
   <StyledTabPanel key={uniqid()} />,
   <StyledTabPanel key={uniqid()}>
-    <BirthdayDisplay />
+    <BirthdayDisplay birthdays={props.birthdays} />
   </StyledTabPanel>,
   props.news.valueSeq().map(items => (
     <StyledTabPanel key={uniqid()}>
@@ -184,7 +185,7 @@ const renderPanels = props => [
 
 const Content = props => (
   <Wrapper className={props.className}>
-    <StyledTabs defaultFocus defaultIndex={4}>
+    <StyledTabs defaultFocus defaultIndex={1}>
       {renderTabs(props)}
       {renderPanels(props)}
     </StyledTabs>

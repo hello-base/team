@@ -11,6 +11,7 @@ import configuration from 'helpers/particles';
 
 const propTypes = {
   date: PropTypes.string,
+  birthdays: PropTypes.instanceOf(List),
   corners: PropTypes.instanceOf(List),
   news: PropTypes.instanceOf(OrderedMap),
   match: PropTypes.shape({
@@ -19,6 +20,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  birthdays: List(),
   corners: List(),
   date: '',
   news: OrderedMap()
@@ -52,7 +54,7 @@ function Layout(props) {
   return (
     <Container>
       <StyledHeader episode={episodeId} date={props.date} />
-      <StyledContent corners={props.corners} news={props.news} />
+      <StyledContent {...props} />
       <StyledParticles params={configuration} />
     </Container>
   );

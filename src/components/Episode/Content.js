@@ -192,7 +192,7 @@ const renderPanels = props => [
 
 const Content = props => (
   <Wrapper className={props.className}>
-    <StyledTabs defaultFocus defaultIndex={0}>
+    <StyledTabs defaultFocus defaultIndex={3}>
       {renderTabs(props)}
       {renderPanels(props)}
     </StyledTabs>

@@ -1,99 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import uniqid from 'uniqid';
 
 import styled from 'styled-components';
 import { Image, Link2, X } from 'react-feather';
 
-import Modal from './Modal';
+import Modal from 'components/Modal';
 
 const propTypes = {
   item: PropTypes.instanceOf(Map).isRequired
 };
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 1fr auto;
-  overflow: hidden;
+const modalPropTypes = {
+  title: PropTypes.string.isRequired,
+  list: PropTypes.instanceOf(List).isRequired
+};
 
-  color: #fff;
-
-  box-shadow: inset 0 0 0 1px #09445d, inset 0 0 0 3px #062938;
-  background-color: rgba(0, 0, 0, 0.1);
-`;
-
-const Headline = styled.div`
-  grid-column: 1;
-  padding: 20px;
-
-  color: #fff;
-  font-family: ${props => props.theme.tungsten};
-  font-size: 36px;
-  font-weight: 300;
-  line-height: 1.05em;
-`;
-
-const Metadata = styled.div`
-  grid-column: 1 / span 2;
-  grid-row: 2;
-
-  display: flex;
-  padding: 12px 20px 10px;
-  margin: 3px;
-
-  background: #020e13;
-  border-top: 1px solid #062938;
-`;
-
-const LinkList = styled.div`
-  flex: 1;
-
-  display: flex;
-  margin: 0;
-  padding: 0;
-
-  font-size: 12px;
-  list-style: none;
-`;
-
-const ListHeader = styled.div`
-  color: #0b516f;
-  font-family: ${props => props.theme.gotham};
-  font-weight: 700;
-  text-transform: uppercase;
-`;
-
-const LinkItem = styled.div`
-  a {
-    color: #0b516f;
-    padding-left: 5px;
-    transition: all 250ms ease;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-`;
-
-function Links({ title, list }) {
-  return (
-    !list.isEmpty() && (
-      <LinkList>
-        <ListHeader>{title}</ListHeader>
-        {list.map(url => (
-          <LinkItem key={uniqid()}>
-            <a href={url} alt={url} target="_blank">
-              <Link2 size={15} />
-            </a>
-          </LinkItem>
-        ))}
-      </LinkList>
-    )
+const Links = ({ title, list }) =>
+  !list.isEmpty() && (
+    <LinkList>
+      <ListHeader>{title}</ListHeader>
+      {list.map(url => (
+        <LinkItem key={uniqid()}>
+          <a href={url} alt={url} target="_blank">
+            <Link2 size={15} />
+          </a>
+        </LinkItem>
+      ))}
+    </LinkList>
   );
-}
 
 class ImageModal extends Component {
   state = {
@@ -130,6 +67,7 @@ class ImageModal extends Component {
       <div>
         <OpenButton onClick={this.handleShow}>
           <Image size={24} />
+          <ImageCounter>{list.size}</ImageCounter>
         </OpenButton>
         {modal}
       </div>
@@ -139,7 +77,7 @@ class ImageModal extends Component {
 
 function Item({ item }) {
   return (
-    <Wrapper>
+    <Container>
       <Headline>{item.get('headline')}</Headline>
       {!item.get('images').isEmpty() && (
         <ImageModal title={item.get('headline')} list={item.get('images')} />
@@ -148,11 +86,82 @@ function Item({ item }) {
         <Links title="Sources" list={item.get('sources')} />
         <Links title="Refs" list={item.get('references')} />
       </Metadata>
-    </Wrapper>
+    </Container>
   );
 }
 
 Item.propTypes = propTypes;
+Modal.propTypes = modalPropTypes;
+
+const Container = styled.div`
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
+  padding-left: 20px;
+  overflow: hidden;
+
+  color: #fff;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 100%;
+
+    background: #2db0ea;
+    border-radius: 3px;
+  }
+`;
+
+const Headline = styled.div`
+  grid-column: 1;
+  padding-bottom: 10px;
+
+  color: #fff;
+  font-family: ${props => props.theme.tungsten};
+  font-size: 36px;
+  line-height: 1em;
+`;
+
+const Metadata = styled.div`
+  grid-column: 1 / span 2;
+  grid-row: 2;
+
+  display: flex;
+`;
+
+const LinkList = styled.div`
+  flex: 1;
+
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  font-size: 12px;
+  list-style: none;
+`;
+
+const ListHeader = styled.div`
+  color: #8cd3f3;
+  font-family: ${props => props.theme.gotham};
+  font-weight: 700;
+  text-transform: uppercase;
+`;
+
+const LinkItem = styled.div`
+  a {
+    color: #8cd3f3;
+    padding-left: 5px;
+    transition: all 250ms ease;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+`;
 
 const SliderImage = styled.div`
   display: flex !important;
@@ -184,12 +193,17 @@ const CloseButton = styled(Button)`
 `;
 
 const OpenButton = styled(Button)`
-  margin: 20px;
   color: #0b516f;
+  margin: 2px 0 9px 20px;
 
   &:hover {
     color: #fff;
   }
+`;
+
+const ImageCounter = styled.div`
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 export default Item;

@@ -10,6 +10,34 @@ const propTypes = {
   birthdays: PropTypes.instanceOf(List).isRequired
 };
 
+const Display = props => (
+  <Wrapper>
+    {props.birthdays.map(member => {
+      const birthday = member.get('birthday');
+      const withMoment = moment(birthday);
+      const thisBirthday = moment()
+        .set('month', withMoment.get('month'))
+        .set('date', withMoment.get('date'));
+      return (
+        <Birthday key={uniqid()}>
+          <BirthDate>{moment(birthday).format('MMMM Do')}</BirthDate>
+          <Name>
+            {member.get('name')}
+            <Age> ({moment(thisBirthday).diff(birthday, 'years')})</Age>
+          </Name>
+          {member.get('affiliation') && (
+            <Group>
+              <strong>{member.get('affiliation')}</strong>
+            </Group>
+          )}
+        </Birthday>
+      );
+    })}
+  </Wrapper>
+);
+
+Display.propTypes = propTypes;
+
 const Wrapper = styled.div`
   grid-column: span 3;
   margin: 30px;
@@ -63,33 +91,5 @@ const BirthDate = styled.div`
   font-weight: 700;
   text-transform: uppercase;
 `;
-
-const Display = props => (
-  <Wrapper>
-    {props.birthdays.map(member => {
-      const birthday = member.get('birthday');
-      const withMoment = moment(birthday);
-      const thisBirthday = moment()
-        .set('month', withMoment.get('month'))
-        .set('date', withMoment.get('date'));
-      return (
-        <Birthday key={uniqid()}>
-          <BirthDate>{moment(birthday).format('MMMM Do')}</BirthDate>
-          <Name>
-            {member.get('name')}
-            <Age> ({moment(thisBirthday).diff(birthday, 'years')})</Age>
-          </Name>
-          {member.get('affiliation') && (
-            <Group>
-              <strong>{member.get('affiliation')}</strong>
-            </Group>
-          )}
-        </Birthday>
-      );
-    })}
-  </Wrapper>
-);
-
-Display.propTypes = propTypes;
 
 export default Display;

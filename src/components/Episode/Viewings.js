@@ -11,6 +11,18 @@ const propTypes = {
   viewings: PropTypes.instanceOf(List).isRequired
 };
 
+const embed = (url, width = 1280, height = 720) => (
+  <iframe
+    title="embed"
+    width={width}
+    height={height}
+    src={`${url}?rel=0&amp;showinfo=0`}
+    frameBorder="0"
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  />
+);
+
 class ViewingModal extends Component {
   state = {
     showModal: false
@@ -21,12 +33,13 @@ class ViewingModal extends Component {
   handleHide = () => this.setState({ showModal: false });
 
   render() {
+    const { embedURL, title, url } = this.props;
     const modal = this.state.showModal ? (
-      <Modal>
+      <Modal title={title}>
         <CloseButton onClick={this.handleHide}>
           <X size={24} />
         </CloseButton>
-        hi
+        {embed(embedURL)}
       </Modal>
     ) : null;
 
@@ -45,8 +58,11 @@ const Display = props => (
       <Container key={viewing.get('pk')}>
         <Description>{viewing.get('headline')}</Description>
         <Song>{viewing.get('song')}</Song>
-        <Performer>{viewing.get('performer')}</Performer>
+        <Performer>
+          from <strong>{viewing.get('performer')}</strong>
+        </Performer>
         <ViewingModal
+          title={viewing.get('song')}
           url={viewing.get('url')}
           embedURL={viewing.get('embed_url')}
         />

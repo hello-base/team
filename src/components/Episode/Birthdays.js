@@ -43,7 +43,7 @@ const Wrapper = styled.div`
   margin: 30px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 30px;
   overflow: hidden;
 

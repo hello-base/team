@@ -11,17 +11,22 @@ const propTypes = {
   viewings: PropTypes.instanceOf(List).isRequired
 };
 
-const embed = (url, width = 1280, height = 720) => (
-  <iframe
-    title="embed"
-    width={width}
-    height={height}
-    src={`${url}?rel=0&amp;showinfo=0`}
-    frameBorder="0"
-    allow="autoplay; encrypted-media"
-    allowFullScreen
-  />
-);
+const embed = (rawURL, width = 1280, height = 720) => {
+  const url = new URL(rawURL);
+  url.searchParams.append('rel', 0);
+  url.searchParams.append('showinfo', 0);
+  return (
+    <iframe
+      title="embed"
+      width={width}
+      height={height}
+      src={url}
+      frameBorder="0"
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+    />
+  );
+};
 
 class ViewingModal extends Component {
   state = {

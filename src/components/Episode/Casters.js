@@ -44,7 +44,6 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 30px;
-  overflow: hidden;
 
   color: #fff;
 `;
@@ -66,13 +65,14 @@ const Caster = styled.div`
 `;
 
 const Picture = styled.div`
-  width: 100px;
-  height: 158px;
+  width: 130px;
+  height: 150px;
 
+  background-color: #062938;
   background-image: url(${props => props.url});
   background-size: cover;
   background-position: center center;
-  box-shadow: 2px 2px 0 #2db0ea;
+  box-shadow: 2px 2px 0 #09445d;
 
   img {
     width: 100%;
@@ -97,6 +97,7 @@ const Handle = styled.div`
 const Oshimen = styled.div`
   padding: 6px 0;
   font-family: ${props => props.theme.ideal};
+  font-size: 13px;
   font-style: italic;
 `;
 
@@ -105,7 +106,7 @@ const Header = styled.div`
 
   color: #8cd3f3;
   font-family: ${props => props.theme.gotham};
-  font-size: 13px;
+  font-size: 12px;
   font-style: normal;
   text-transform: uppercase;
 `;

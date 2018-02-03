@@ -122,7 +122,7 @@ const Headline = styled.div`
 
   color: #fff;
   font-family: ${props => props.theme.tungsten};
-  font-size: 36px;
+  font-size: 42px;
   line-height: 1em;
 `;
 

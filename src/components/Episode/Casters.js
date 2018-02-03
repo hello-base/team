@@ -12,18 +12,24 @@ const Display = props => (
   <Wrapper>
     {props.casters.map(caster => (
       <Caster key={caster.get('username')}>
-        <Name>{caster.get('nickname')}</Name>
-        <Handle>{caster.get('username')}</Handle>
-        {caster.get('biography')}
-        <Oshimen>
-          <Header>Oshimen</Header>
-          <strong>{caster.get('kamioshi')}</strong>,{' '}
-          {caster.get('oshi_overall')}
-        </Oshimen>
-        <Oshimen>
-          <Header>Current H!P Loves</Header>
-          {caster.get('oshi_current')}
-        </Oshimen>
+        <Picture
+          url={`https://helloteamcast.s3.amazonaws.com/picutres/${caster
+            .get('username')
+            .toLowerCase()}.jpg`}
+        />
+        <Metadata>
+          <Name>{caster.get('nickname')}</Name>
+          <Handle>{caster.get('username')}</Handle>
+          <Oshimen>
+            <Header>Oshimen</Header>
+            <strong>{caster.get('kamioshi')}</strong>,{' '}
+            {caster.get('oshi_overall')}
+          </Oshimen>
+          <Oshimen>
+            <Header>Current H!P Loves</Header>
+            {caster.get('oshi_current')}
+          </Oshimen>
+        </Metadata>
       </Caster>
     ))}
   </Wrapper>
@@ -44,19 +50,38 @@ const Wrapper = styled.div`
 `;
 
 const Caster = styled.div`
-  padding-top: 10px;
-  position: relative;
+  display: flex;
+  ${'' /* padding-top: 10px; */} position: relative;
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
     width: 30px;
-    height: 3px;
+    height: 6px;
 
     background: #2db0ea;
-    border-radius: 3px;
+    ${'' /* border-radius: 6px; */};
   }
+`;
+
+const Picture = styled.div`
+  width: 100px;
+  height: 158px;
+
+  background-image: url(${props => props.url});
+  background-size: cover;
+  background-position: center center;
+  box-shadow: 2px 2px 0 #2db0ea;
+
+  img {
+    width: 100%;
+  }
+`;
+
+const Metadata = styled.div`
+  flex: 1;
+  padding-left: 20px;
 `;
 
 const Name = styled.div`
@@ -76,6 +101,8 @@ const Oshimen = styled.div`
 `;
 
 const Header = styled.div`
+  margin-bottom: 2px;
+
   color: #8cd3f3;
   font-family: ${props => props.theme.gotham};
   font-size: 13px;

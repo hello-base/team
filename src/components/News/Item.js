@@ -122,7 +122,7 @@ const Headline = styled.div`
 
   color: #fff;
   font-family: ${props => props.theme.tungsten};
-  font-size: 42px;
+  font-size: 36px;
   line-height: 1em;
 `;
 
@@ -131,11 +131,10 @@ const Metadata = styled.div`
   grid-row: 2;
 
   display: flex;
+  justify-content: space-between;
 `;
 
 const LinkList = styled.div`
-  flex: 1;
-
   display: flex;
   margin: 0;
   padding: 0;

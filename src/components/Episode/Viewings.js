@@ -40,10 +40,7 @@ class ViewingModal extends Component {
   render() {
     const { embedURL, title, url } = this.props;
     const modal = this.state.showModal ? (
-      <Modal title={title}>
-        <CloseButton onClick={this.handleHide}>
-          <X size={24} />
-        </CloseButton>
+      <Modal title={title} close={this.handleHide}>
         {embed(embedURL)}
       </Modal>
     ) : null;
@@ -147,12 +144,6 @@ const Button = styled.button`
   &:focus {
     outline: none;
   }
-`;
-
-const CloseButton = styled(Button)`
-  position: absolute;
-  right: 28px;
-  top: -54px;
 `;
 
 const OpenButton = styled(Button)`

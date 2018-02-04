@@ -5,7 +5,7 @@ import { List, Map } from 'immutable';
 import uniqid from 'uniqid';
 
 import styled from 'styled-components';
-import { Image, Link2, X } from 'react-feather';
+import { Image, Link2 } from 'react-feather';
 
 import Modal from 'components/Modal';
 
@@ -47,19 +47,18 @@ class ImageModal extends Component {
       easing: 'cubic-bezier(.62, .28, .23, .99)',
       speed: 300
     };
-    const { title, list } = this.props;
+    const { description, list, title } = this.props;
     const modal = this.state.showModal ? (
-      <Modal title={title}>
-        <CloseButton onClick={this.handleHide}>
-          <X size={24} />
-        </CloseButton>
-        <Slider {...settings}>
-          {list.map(url => (
-            <SliderImage key={uniqid()}>
-              <img src={url} alt={url} />
-            </SliderImage>
-          ))}
-        </Slider>
+      <Modal title={title} description={description} close={this.handleHide}>
+        <SliderContainer>
+          <Slider {...settings}>
+            {list.map(url => (
+              <SliderImage key={uniqid()}>
+                <img src={url} alt={url} />
+              </SliderImage>
+            ))}
+          </Slider>
+        </SliderContainer>
       </Modal>
     ) : null;
 
@@ -78,9 +77,15 @@ class ImageModal extends Component {
 function Item({ item }) {
   return (
     <Container>
-      <Headline>{item.get('headline')}</Headline>
+      <Headline isFeatured={item.get('featured')}>
+        {item.get('headline')}
+      </Headline>
       {!item.get('images').isEmpty() && (
-        <ImageModal title={item.get('headline')} list={item.get('images')} />
+        <ImageModal
+          title={item.get('headline')}
+          description={item.get('description')}
+          list={item.get('images')}
+        />
       )}
       <Metadata>
         <Links title="Sources" list={item.get('sources')} />
@@ -120,9 +125,9 @@ const Headline = styled.div`
   grid-column: 1;
   padding-bottom: 10px;
 
-  color: #fff;
+  color: ${props => (props.isFeatured ? '#fff' : '#90d6f4')};
   font-family: ${props => props.theme.tungsten};
-  font-size: 36px;
+  font-size: ${props => (props.isFeatured ? 36 : 30)}px;
   line-height: 1em;
 `;
 
@@ -162,6 +167,10 @@ const LinkItem = styled.div`
   }
 `;
 
+const SliderContainer = styled.div`
+  margin: 0 40px;
+`;
+
 const SliderImage = styled.div`
   display: flex !important;
   justify-content: center;
@@ -183,12 +192,6 @@ const Button = styled.button`
   &:focus {
     outline: none;
   }
-`;
-
-const CloseButton = styled(Button)`
-  position: absolute;
-  right: 28px;
-  top: -54px;
 `;
 
 const OpenButton = styled(Button)`

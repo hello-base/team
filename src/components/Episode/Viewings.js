@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 import styled from 'styled-components';
-import { X } from 'react-feather';
+import { Airplay } from 'react-feather';
 
 import Modal from 'components/Modal';
 
@@ -47,7 +47,9 @@ class ViewingModal extends Component {
 
     return (
       <div>
-        <OpenButton onClick={this.handleShow}>click me</OpenButton>
+        <OpenButton onClick={this.handleShow}>
+          <Airplay size={24} />
+        </OpenButton>
         {modal}
       </div>
     );
@@ -58,11 +60,13 @@ const Display = props => (
   <Wrapper>
     {props.viewings.map(viewing => (
       <Container key={viewing.get('pk')}>
-        <Description>{viewing.get('headline')}</Description>
-        <Song>{viewing.get('song')}</Song>
-        <Performer>
-          from <strong>{viewing.get('performer')}</strong>
-        </Performer>
+        <Headline>
+          <Description>{viewing.get('headline')}</Description>
+          <Song>{viewing.get('song')}</Song>
+          <Performer>
+            performed by <strong>{viewing.get('performer')}</strong>
+          </Performer>
+        </Headline>
         <ViewingModal
           title={viewing.get('song')}
           url={viewing.get('url')}
@@ -108,6 +112,10 @@ const Container = styled.div`
   }
 `;
 
+const Headline = styled.div`
+  grid-column: 1;
+`;
+
 const Description = styled.div`
   padding-bottom: 4px;
 
@@ -120,11 +128,10 @@ const Description = styled.div`
 
 const Song = styled.div`
   grid-column: 1;
-  padding-bottom: 10px;
 
   color: #fff;
   font-family: ${props => props.theme.tungsten};
-  font-size: 36px;
+  font-size: 42px;
   line-height: 1em;
 `;
 

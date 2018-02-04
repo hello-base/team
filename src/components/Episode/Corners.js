@@ -19,6 +19,65 @@ const cornerPropTypes = {
   selected: PropTypes.string.isRequired
 };
 
+const Corner = ({ corner, name, selected }) => (
+  <CornerWrapper name={name} selected={selected}>
+    <Header key={uniqid()}>
+      <Name key={uniqid()}>{corner.get('name')}</Name>
+      <CategoryBubble>
+        <CategoryText>SPECIAL {corner.get('category')} CORNER</CategoryText>
+      </CategoryBubble>
+    </Header>
+    <Description key={uniqid()}>{corner.get('description')}</Description>
+  </CornerWrapper>
+);
+
+class Corners extends Component {
+  state = {
+    options: this.props.list.toJS().map(corner => ({
+      value: corner.slug,
+      label: corner.name
+    })),
+    selectedCorner: ''
+  };
+
+  handleChange = selectedCorner => {
+    this.setState({ selectedCorner });
+  };
+
+  render() {
+    const { options, selectedCorner } = this.state;
+    const value = selectedCorner && selectedCorner.value;
+    return (
+      <Wrapper>
+        <SelectContainer>
+          <StyledSelect
+            name="corner-select"
+            value={value}
+            onChange={this.handleChange}
+            options={options}
+            clearable={false}
+            placeholder="Select a Corner..."
+            searchable={false}
+          />
+        </SelectContainer>
+        <CornerContainer>
+          {this.props.list.map(item => (
+            <Corner
+              key={item.get('slug')}
+              corner={item}
+              name={item.get('slug')}
+              selected={value}
+            />
+          ))}
+        </CornerContainer>
+      </Wrapper>
+    );
+  }
+}
+
+Corners.propTypes = propTypes;
+Corner.propTypes = cornerPropTypes;
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
@@ -142,64 +201,5 @@ const Description = styled.div`
   font-weight: 100;
   font-style: italic;
 `;
-
-const Corner = ({ corner, name, selected }) => (
-  <CornerWrapper name={name} selected={selected}>
-    <Header key={uniqid()}>
-      <Name key={uniqid()}>{corner.get('name')}</Name>
-      <CategoryBubble>
-        <CategoryText>SPECIAL {corner.get('category')} CORNER</CategoryText>
-      </CategoryBubble>
-    </Header>
-    <Description key={uniqid()}>{corner.get('description')}</Description>
-  </CornerWrapper>
-);
-
-class Corners extends Component {
-  state = {
-    options: this.props.list.toJS().map(corner => ({
-      value: corner.slug,
-      label: corner.name
-    })),
-    selectedCorner: ''
-  };
-
-  handleChange = selectedCorner => {
-    this.setState({ selectedCorner });
-  };
-
-  render() {
-    const { options, selectedCorner } = this.state;
-    const value = selectedCorner && selectedCorner.value;
-    return (
-      <Wrapper>
-        <SelectContainer>
-          <StyledSelect
-            name="corner-select"
-            value={value}
-            onChange={this.handleChange}
-            options={options}
-            clearable={false}
-            placeholder="Select a Corner..."
-            searchable={false}
-          />
-        </SelectContainer>
-        <CornerContainer>
-          {this.props.list.map(item => (
-            <Corner
-              key={item.get('slug')}
-              corner={item}
-              name={item.get('slug')}
-              selected={value}
-            />
-          ))}
-        </CornerContainer>
-      </Wrapper>
-    );
-  }
-}
-
-Corners.propTypes = propTypes;
-Corner.propTypes = cornerPropTypes;
 
 export default Corners;

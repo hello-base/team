@@ -36,9 +36,10 @@ Modal.propTypes = propTypes;
 const ModalOverlay = styled.div`
   position: fixed;
   ${position(0, 0, 0, 0)};
+  padding-right: 54px;
 
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   z-index: 1000;
 
@@ -98,8 +99,10 @@ const ModalDescription = styled.div`
   color: #90d6f4;
   font-family: ${props => props.theme.ideal};
   font-weight: 300;
-  font-size: 18px;
+  font-size: 16px;
   font-style: italic;
+  line-height: 1.3;
+  white-space: pre-line;
 `;
 
 const ModalContent = styled.div`
